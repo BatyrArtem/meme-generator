@@ -36,7 +36,6 @@ export default function Meme() {
                 >
                     Get a new meme image 🖼
                 </button>
-                
             </div>
             <img className="meme--image" src={meme.randomImage} />
         </main>
