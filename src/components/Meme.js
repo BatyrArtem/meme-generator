@@ -12,10 +12,18 @@ export default function Meme() {
     const [allMemeImages, setAllMemeImages] = React.useState(memesData)
 
     function showImgURL() {
-        var item = Math.floor(Math.random()*memesData.data.memes.length);
+        var item = Math.floor(Math.random()*allMemeImages.data.memes.length);
         setMeme(pervState => ({
             ...pervState,
-            randomImage:memesData.data.memes[item].url
+            randomImage: memesData.data.memes[item].url
+        }))
+    }
+
+    function addMemeText(event) {
+        const {value, name} = event.target
+        setMeme(prevMemeState => ({
+            ...prevMemeState,
+            [name]: value
         }))
     }
     
@@ -25,11 +33,19 @@ export default function Meme() {
                 <input
                     type="text"
                     placeholder="Top text"
-                    className="form--input" />
+                    className="form--input" 
+                    value={meme.topText}
+                    name="topText"
+                    onChange={addMemeText}
+                    />
                 <input
                     type="text"
                     placeholder="Bottom text"
-                    className="form--input" />
+                    className="form--input" 
+                    name="bottomText"
+                    value={meme.bottomText}
+                    onChange={addMemeText}
+                    />
                 <button
                     className="form--button"
                     onClick={showImgURL}
@@ -37,7 +53,15 @@ export default function Meme() {
                     Get a new meme image 🖼
                 </button>
             </div>
-            <img className="meme--image" src={meme.randomImage} />
+            <div className="meme">
+                <img className="meme--image" src={meme.randomImage} />
+                <h2 className="meme--text top">
+                    {meme.topText}
+                </h2>
+                <h2 className="meme--text bottom">
+                    {meme.bottomText}
+                </h2>
+            </div>
         </main>
     )
 }
