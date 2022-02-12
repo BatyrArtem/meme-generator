@@ -3,7 +3,7 @@ import memesData from "../memesData";
 
 export default function Meme() {
 
-    const [meme, setMeme] = React.useState({
+    const [meme, setMeme] = React.useState(() => JSON.parse(localStorage.getItem("meme")) || { //если я перезагружу стр, то данные подтянутся с local storage
         topText: "",
         bottomText: "",
         randomImage: "http://i.imgflip.com/1bij.jpg" 
@@ -11,11 +11,15 @@ export default function Meme() {
 
     const [allMemeImages, setAllMemeImages] = React.useState([])
 
-    React.useEffect(() => {
+    React.useEffect(() => { 
         fetch("https://api.imgflip.com/get_memes")
             .then(res => res.json())
             .then(data => setAllMemeImages(data.data.memes))
     }, [])
+
+    React.useEffect(() => {  // каждый раз срабатывает как изменяется meme и добавляет в local storage текущее состояние meme
+        localStorage.setItem("meme", JSON.stringify(meme))
+    }, [meme])
 
     function showImgURL() {
         var item = Math.floor(Math.random()*allMemeImages.length);
